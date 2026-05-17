@@ -7,6 +7,7 @@ from imgrab.download import download_cmd
 from imgrab.screenshot import screenshot_cmd
 from imgrab.extract import extract_cmd
 from imgrab.batch import batch_cmd
+from imgrab.search import search_cmd
 
 
 @click.group()
@@ -27,7 +28,9 @@ cli.add_command(download_cmd, "download")
 cli.add_command(screenshot_cmd, "screenshot")
 cli.add_command(extract_cmd, "extract")
 cli.add_command(batch_cmd, "batch")
+cli.add_command(search_cmd, "search")
 
 
 if __name__ == "__main__":
     cli()
+

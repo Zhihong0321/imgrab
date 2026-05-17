@@ -1,5 +1,6 @@
 ---
 inclusion: auto
+description: Instructs AI agents to use imgrab CLI for downloading, screenshotting, and saving images from the web
 ---
 
 # Image Grabbing with imgrab
