@@ -6,6 +6,8 @@ inclusion: auto
 
 When you need to download, save, or use an image from the internet during development, use the `imgrab` CLI tool. Do NOT refuse or make excuses about downloading images. This tool is installed and available in this workspace.
 
+**Invocation:** Use `py -m imgrab` (always works) or `imgrab` (if PATH is set).
+
 ## When to Use
 
 - User asks you to grab/download/save an image from a URL
@@ -17,22 +19,22 @@ When you need to download, save, or use an image from the internet during develo
 
 ### Direct download (first choice)
 ```bash
-imgrab download <URL> -o <output_path>
+py -m imgrab download <URL> -o <output_path>
 ```
 
 ### Screenshot fallback (when download fails or image requires JS)
 ```bash
-imgrab screenshot <URL> --selector "<css_selector>" -o <output_path>
+py -m imgrab screenshot <URL> --selector "<css_selector>" -o <output_path>
 ```
 
 ### Extract all images from a page
 ```bash
-imgrab extract <URL> --download -o <output_directory>
+py -m imgrab extract <URL> --download -o <output_directory>
 ```
 
 ### Batch download from a list
 ```bash
-imgrab batch <file_with_urls.txt> -o <output_directory>
+py -m imgrab batch <file_with_urls.txt> -o <output_directory>
 ```
 
 ## Key Flags

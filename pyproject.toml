@@ -5,18 +5,22 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "imgrab"
 version = "0.1.0"
-description = "No-excuses image grabber CLI — download, screenshot, or clipboard-copy any image from the web"
+description = "No-excuses image grabber CLI - download, screenshot, or clipboard-copy any image from the web"
 requires-python = ">=3.10"
 dependencies = [
-    "httpx==0.27.0",
-    "click==8.1.7",
-    "Pillow==10.4.0",
-    "playwright==1.44.0",
-    "pywin32==306",
+    "httpx>=0.27",
+    "click>=8.1",
+    "Pillow>=10.4",
+    "playwright>=1.50",
+    "pywin32>=306; sys_platform == 'win32'",
 ]
 
 [project.scripts]
 imgrab = "imgrab.cli:cli"
+
+[project.urls]
+Homepage = "https://github.com/xuahipn/imgrab"
+Repository = "https://github.com/xuahipn/imgrab"
 
 [tool.setuptools.packages.find]
 where = ["src"]

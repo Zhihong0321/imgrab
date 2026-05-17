@@ -2,12 +2,18 @@
 
 No-excuses image grabber CLI. Download, screenshot, or clipboard-copy any image from the web.
 
-## Install
+## One-Step Install
 
 ```bash
-pip install -e .
-playwright install chromium
+pip install git+https://github.com/xuahipn/imgrab.git && playwright install chromium
 ```
+
+Or on Windows PowerShell:
+```powershell
+powershell -ExecutionPolicy Bypass -File install.ps1
+```
+
+That's it. Now use `imgrab` (or `py -m imgrab` if not on PATH).
 
 ## Quick Start
 
@@ -15,7 +21,7 @@ playwright install chromium
 # Direct download
 imgrab download https://example.com/photo.jpg -o ./assets/photo.jpg
 
-# Screenshot (for JS-rendered or blocked images)
+# Screenshot (for JS-rendered, auth-gated, or blocked images)
 imgrab screenshot https://example.com/page --selector "img.hero" -o hero.png
 
 # Extract all images from a page
@@ -24,7 +30,7 @@ imgrab extract https://example.com/gallery --download -o ./images/
 # Batch download from a URL list
 imgrab batch urls.txt -o ./assets/
 
-# Copy to clipboard
+# Copy to Windows clipboard (paste into Figma, docs, etc.)
 imgrab download https://example.com/icon.png --clipboard
 ```
 
@@ -42,36 +48,37 @@ imgrab download https://example.com/icon.png --clipboard
 | Flag | Purpose |
 |------|---------|
 | `-o, --output` | Output file or directory |
-| `--format png\|jpg\|webp\|gif` | Convert output format |
+| `--format png|jpg|webp|gif` | Convert output format |
 | `--selector "css"` | Target specific element |
 | `--clipboard` | Copy to Windows clipboard |
 | `--header "Key: Value"` | Custom HTTP header (repeatable) |
 | `--force` | Overwrite existing files |
-| `--verbose` / `--quiet` | Control output verbosity |
+| `-v` / `-q` | Verbose / quiet mode (on root command) |
 
-## For AI Agents
+## For AI Coding Agents
 
-This repo includes a Kiro steering file at `.kiro/steering/imgrab.md` that instructs AI coding agents how to use this tool. Copy the `.kiro/` directory into any project where you want your AI agent to automatically use imgrab for image tasks.
+This repo includes a Kiro steering file that teaches AI agents to use imgrab automatically.
 
-### Quick setup for any project:
+### Setup for any project (one line):
 
 ```bash
-# Install imgrab globally
-pip install git+https://github.com/xuahipn/imgrab.git
-
-# Copy the steering file to your project
-cp -r path/to/imgrab/.kiro/steering/imgrab.md your-project/.kiro/steering/imgrab.md
+mkdir -p .kiro/steering && curl -sL https://raw.githubusercontent.com/xuahipn/imgrab/main/.kiro/steering/imgrab.md -o .kiro/steering/imgrab.md
 ```
 
-Now any AI agent working in that project will know to use `imgrab` instead of refusing image downloads.
+Or on Windows:
+```powershell
+New-Item -ItemType Directory -Force -Path .kiro\steering | Out-Null; Invoke-WebRequest -Uri "https://raw.githubusercontent.com/xuahipn/imgrab/main/.kiro/steering/imgrab.md" -OutFile ".kiro\steering\imgrab.md"
+```
+
+Now any AI agent (Kiro, Cursor, etc.) working in that project will use `imgrab` for image tasks instead of refusing.
 
 ## Stack
 
 - Python 3.10+
 - httpx (async HTTP/2 downloads)
-- playwright (headless Chromium)
+- playwright (headless Chromium for screenshots)
 - click (CLI framework)
-- Pillow (image processing)
+- Pillow (image processing/conversion)
 - pywin32 (Windows clipboard)
 
 ## License
