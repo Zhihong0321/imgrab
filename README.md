@@ -5,7 +5,7 @@ No-excuses image grabber CLI. Download, screenshot, or clipboard-copy any image 
 ## One-Step Install
 
 ```bash
-pip install git+https://github.com/xuahipn/imgrab.git && playwright install chromium
+pip install git+https://github.com/Zhihong0321/imgrab.git && playwright install chromium
 ```
 
 Or on Windows PowerShell:
@@ -62,12 +62,12 @@ This repo includes a Kiro steering file that teaches AI agents to use imgrab aut
 ### Setup for any project (one line):
 
 ```bash
-mkdir -p .kiro/steering && curl -sL https://raw.githubusercontent.com/xuahipn/imgrab/main/.kiro/steering/imgrab.md -o .kiro/steering/imgrab.md
+mkdir -p .kiro/steering && curl -sL https://raw.githubusercontent.com/Zhihong0321/imgrab/main/.kiro/steering/imgrab.md -o .kiro/steering/imgrab.md
 ```
 
 Or on Windows:
 ```powershell
-New-Item -ItemType Directory -Force -Path .kiro\steering | Out-Null; Invoke-WebRequest -Uri "https://raw.githubusercontent.com/xuahipn/imgrab/main/.kiro/steering/imgrab.md" -OutFile ".kiro\steering\imgrab.md"
+New-Item -ItemType Directory -Force -Path .kiro\steering | Out-Null; Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Zhihong0321/imgrab/main/.kiro/steering/imgrab.md" -OutFile ".kiro\steering\imgrab.md"
 ```
 
 Now any AI agent (Kiro, Cursor, etc.) working in that project will use `imgrab` for image tasks instead of refusing.

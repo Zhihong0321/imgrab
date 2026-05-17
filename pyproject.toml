@@ -19,8 +19,8 @@ dependencies = [
 imgrab = "imgrab.cli:cli"
 
 [project.urls]
-Homepage = "https://github.com/xuahipn/imgrab"
-Repository = "https://github.com/xuahipn/imgrab"
+Homepage = "https://github.com/Zhihong0321/imgrab"
+Repository = "https://github.com/Zhihong0321/imgrab"
 
 [tool.setuptools.packages.find]
 where = ["src"]
