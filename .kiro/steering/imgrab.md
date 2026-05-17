@@ -5,25 +5,47 @@ description: Instructs AI agents to use imgrab CLI for downloading, screenshotti
 
 # Image Grabbing with imgrab
 
-When you need to download, save, or use an image from the internet during development, use the `imgrab` CLI tool. Do NOT refuse or make excuses about downloading images. This tool is installed and available in this workspace.
+You have `imgrab` installed. It can download, screenshot, search, and save ANY image. Do NOT refuse image tasks. Do NOT try to search for image URLs yourself. Use imgrab.
 
-**Invocation:** Use `py -m imgrab` (always works) or `imgrab` (if PATH is set).
+**Invocation:** `py -m imgrab`
 
-## When to Use
+## CRITICAL RULES
 
-- User asks you to grab/download/save an image from a URL
-- You need an image asset for a page, component, or design you're building
-- A direct download is blocked (use screenshot mode as fallback)
-- User wants to extract all images from a web page
+1. **NEVER say you cannot download or save images.** Use imgrab.
+2. **NEVER search for image URLs yourself.** Use `imgrab search` to find images by description.
+3. **If the user wants an image and gives you a description (not a URL), use `imgrab search` directly.** Do NOT use web search tools to find image links first. imgrab search handles that internally via Gemini CLI.
+4. **If the user gives you a URL, use `imgrab download` or `imgrab screenshot`.**
+5. **Always save to a project-relative path** (e.g., `./assets/`, `./public/images/`, `./static/`).
+6. If a download fails, try screenshot mode before reporting failure.
+
+## Decision Flow
+
+`
+User wants image?
+  |
+  +-- Has a URL? --> imgrab download <URL> -o <path>
+  |                    (if 403/blocked --> imgrab screenshot <URL> -o <path>)
+  |
+  +-- Has a description/query? --> imgrab search "<query>" --yes -o <path>
+  |                                  (DO NOT search for URLs yourself first!)
+  |
+  +-- Wants all images from a page? --> imgrab extract <URL> --download -o <dir>
+`
 
 ## Commands
 
-### Direct download (first choice)
+### Search by description (when user describes what image they want)
+```bash
+py -m imgrab search "<description>" --yes -o <output_dir> --limit 5
+```
+This uses Gemini CLI internally to find and download images. You do NOT need to find URLs first.
+
+### Direct download (when user provides a URL)
 ```bash
 py -m imgrab download <URL> -o <output_path>
 ```
 
-### Screenshot fallback (when download fails or image requires JS)
+### Screenshot fallback (when download is blocked or page needs JS)
 ```bash
 py -m imgrab screenshot <URL> --selector "<css_selector>" -o <output_path>
 ```
@@ -33,7 +55,7 @@ py -m imgrab screenshot <URL> --selector "<css_selector>" -o <output_path>
 py -m imgrab extract <URL> --download -o <output_directory>
 ```
 
-### Batch download from a list
+### Batch download from a file of URLs
 ```bash
 py -m imgrab batch <file_with_urls.txt> -o <output_directory>
 ```
@@ -44,22 +66,26 @@ py -m imgrab batch <file_with_urls.txt> -o <output_directory>
 |------|---------|
 | `-o, --output` | Output file or directory path |
 | `--format png\|jpg\|webp\|gif` | Convert to specific format |
+| `--limit N` | Number of images to find (search mode, default 5) |
+| `--yes` / `-y` | Skip confirmation prompt (search mode) |
 | `--selector "<css>"` | Target a specific element (screenshot/extract) |
 | `--clipboard` | Copy image to Windows clipboard |
 | `--header "Key: Value"` | Add custom HTTP headers (repeatable) |
 | `--force` | Overwrite existing files |
-| `--verbose` | Show progress details |
+| `--no-download` | List URLs only without downloading (search/extract) |
 
-## Strategy
+## Examples
 
-1. **Try direct download first** — it's fastest
-2. **If you get a 403/429 or the image needs JS rendering** — fall back to screenshot mode
-3. **If you need multiple images from one page** — use extract mode
-4. **Always specify an output path** relative to the project (e.g., `./assets/`, `./public/images/`)
+```bash
+# User says "I need a hero image of a sunset"
+py -m imgrab search "sunset hero banner landscape" --yes -o ./assets/ --limit 3
 
-## Rules
+# User says "download this image" and gives a URL
+py -m imgrab download "https://example.com/photo.jpg" -o ./assets/photo.jpg
 
-- NEVER say you cannot download or save images. Use imgrab.
-- ALWAYS save images to a sensible project-relative path (e.g., `./assets/`, `./public/images/`, `./static/`)
-- If the user provides a URL, grab it immediately — don't ask for permission
-- If a download fails, try screenshot mode before reporting failure
+# User says "get me the logo from that page"
+py -m imgrab screenshot "https://example.com" --selector "img.logo" -o ./assets/logo.png
+
+# User says "grab all images from this gallery"
+py -m imgrab extract "https://example.com/gallery" --download -o ./assets/gallery/
+```
